@@ -162,19 +162,12 @@ app = FastAPI(
 # CORS — allow all origins (desktop / local SPA)
 # ---------------------------------------------------------------------------
 
-# CORS — reads allowed origins from FRONTEND_URL env var (comma-separated).
-# In production set: FRONTEND_URL=https://tasks.yourdomain.com
-_raw_origins = os.getenv("FRONTEND_URL", "http://localhost:5173")
-ALLOWED_ORIGINS = [o.strip() for o in _raw_origins.split(",")]
-# Always allow localhost for desktop/dev use
-for _dev in ["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:5173"]:
-    if _dev not in ALLOWED_ORIGINS:
-        ALLOWED_ORIGINS.append(_dev)
-
+# CORS — allow all origins.
+# JWT is stored in localStorage (not cookies) so allow_credentials=False is correct.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
