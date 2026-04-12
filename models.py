@@ -95,6 +95,11 @@ class User(Base):
     templates_created = relationship("MessageTemplate", back_populates="creator")
     notifications = relationship("Notification", back_populates="user")
 
+    @property
+    def full_name(self) -> str:
+        """Alias for name — used by frontend and Pydantic serialisation."""
+        return self.name
+
     def __repr__(self):
         return f"<User id={self.id} email={self.email} role={self.role}>"
 

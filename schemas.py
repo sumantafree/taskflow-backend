@@ -71,7 +71,7 @@ class TemplateType(str, Enum):
 # ---------------------------------------------------------------------------
 
 class UserBase(BaseModel):
-    name: str = Field(..., min_length=1, max_length=100)
+    full_name: str = Field(..., min_length=1, max_length=100)
     email: EmailStr
     role: UserRole = UserRole.member
 
@@ -81,15 +81,18 @@ class UserCreate(UserBase):
 
 
 class UserUpdate(BaseModel):
-    name: Optional[str] = Field(None, min_length=1, max_length=100)
+    full_name: Optional[str] = Field(None, min_length=1, max_length=100)
     email: Optional[EmailStr] = None
     role: Optional[UserRole] = None
     is_active: Optional[bool] = None
     password: Optional[str] = Field(None, min_length=6)
 
 
-class UserResponse(UserBase):
+class UserResponse(BaseModel):
     id: int
+    full_name: str
+    email: EmailStr
+    role: UserRole
     is_active: bool
     created_at: datetime
 

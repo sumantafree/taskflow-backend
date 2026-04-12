@@ -30,7 +30,7 @@ def register(user_in: schemas.UserCreate, db: Session = Depends(get_db)):
             detail="Email already registered",
         )
     user = models.User(
-        name=user_in.name,
+        name=user_in.full_name,
         email=user_in.email,
         hashed_password=hash_password(user_in.password),
         role=user_in.role,
@@ -97,6 +97,10 @@ def update_user(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
     update_data = user_in.model_dump(exclude_unset=True)
+
+    # Map full_name → name (DB column)
+    if "full_name" in update_data:
+        update_data["name"] = update_data.pop("full_name")
 
     # Only admins can change roles
     if "role" in update_data and current_user.role != models.UserRole.admin:
