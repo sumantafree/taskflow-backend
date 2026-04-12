@@ -196,9 +196,9 @@ app.include_router(notifications.router)
 # Health check
 # ---------------------------------------------------------------------------
 
-@app.get("/health", tags=["Health"])
+@app.api_route("/health", methods=["GET", "HEAD"], tags=["Health"])
 def health_check():
-    """Simple liveness probe."""
+    """Liveness probe — accepts both GET and HEAD (for Render health checker)."""
     return {
         "status": "healthy",
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -206,7 +206,7 @@ def health_check():
     }
 
 
-@app.get("/", tags=["Root"])
+@app.api_route("/", methods=["GET", "HEAD"], tags=["Root"])
 def root():
     return {
         "message": "AI Task Manager API is running",
