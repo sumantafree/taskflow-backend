@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: taskflow-api
+    runtime: python
+    region: singapore   # change to: oregon, frankfurt, ohio, singapore — pick closest to you
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true          # Render auto-generates a secure random value
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "10080"               # 7 days
+      - key: DATABASE_URL
+        value: sqlite:///./taskmanager.db
+      - key: GEMINI_API_KEY
+        sync: false                  # you fill this in Render dashboard
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: FROM_EMAIL
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_WHATSAPP_FROM
+        value: "whatsapp:+14155238886"
+      - key: SCHEDULER_INTERVAL_MINUTES
+        value: "10"
