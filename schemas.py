@@ -76,8 +76,21 @@ class UserBase(BaseModel):
     role: UserRole = UserRole.member
 
 
-class UserCreate(UserBase):
+class UserCreate(BaseModel):
+    """Accepts either full_name or name so both old and new clients work."""
+    full_name: Optional[str] = Field(None, min_length=1, max_length=100)
+    name: Optional[str] = Field(None, min_length=1, max_length=100)  # fallback alias
+    email: EmailStr
+    role: UserRole = UserRole.member
     password: str = Field(..., min_length=6)
+
+    @field_validator("full_name", mode="before")
+    @classmethod
+    def resolve_full_name(cls, v, info):
+        # if full_name not provided, fall back to name
+        if not v:
+            return info.data.get("name") or v
+        return v
 
 
 class UserUpdate(BaseModel):
