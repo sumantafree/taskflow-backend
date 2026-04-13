@@ -55,6 +55,7 @@ def _get_task_or_404(db: Session, task_id: int) -> models.Task:
 # Task CRUD
 # ---------------------------------------------------------------------------
 
+@router.get("", response_model=List[schemas.TaskResponse])
 @router.get("/", response_model=List[schemas.TaskResponse])
 def list_tasks(
     status: Optional[schemas.TaskStatus] = Query(None),

@@ -10,6 +10,7 @@ from auth import get_current_user
 router = APIRouter(prefix="/notifications", tags=["Notifications"])
 
 
+@router.get("", response_model=List[schemas.NotificationResponse])
 @router.get("/", response_model=List[schemas.NotificationResponse])
 def list_notifications(
     unread_only: bool = Query(False),
