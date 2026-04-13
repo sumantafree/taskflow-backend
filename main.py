@@ -147,7 +147,14 @@ async def lifespan(app: FastAPI):
 # ---------------------------------------------------------------------------
 
 app = FastAPI(
-    
+ app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://taskflow.digitalsumanta.com"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.options("/{rest_of_path:path}")
 async def options_handler(rest_of_path: str):
@@ -159,6 +166,7 @@ async def options_handler(rest_of_path: str):
             "Access-Control-Allow-Headers": "*",
         },
     )
+
     title="AI Task Manager API",
     description=(
         "Production-ready backend for the AI Task Manager app. "
