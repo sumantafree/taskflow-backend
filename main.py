@@ -164,7 +164,7 @@ app = FastAPI(
 from starlette.requests import Request
 from starlette.responses import Response as StarletteResponse
 
-@app.middleware("http")
+/* @app.middleware("http")
 async def cors_middleware(request: Request, call_next):
     # Handle preflight OPTIONS immediately — no route processing needed
     if request.method == "OPTIONS":
@@ -179,13 +179,16 @@ async def cors_middleware(request: Request, call_next):
     response.headers["Access-Control-Allow-Origin"] = "*"
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, Origin"
-    return response
+    return response */
 
 # Keep CORSMiddleware as a fallback layer
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
+    allow_origins=[
+        "https://taskflow.digitalsumanta.com",
+        "http://localhost:3000"
+    ],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
