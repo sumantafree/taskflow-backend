@@ -164,22 +164,7 @@ app = FastAPI(
 from starlette.requests import Request
 from starlette.responses import Response as StarletteResponse
 
-/* @app.middleware("http")
-async def cors_middleware(request: Request, call_next):
-    # Handle preflight OPTIONS immediately — no route processing needed
-    if request.method == "OPTIONS":
-        response = StarletteResponse(status_code=200)
-        response.headers["Access-Control-Allow-Origin"] = "*"
-        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-        response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, Origin"
-        response.headers["Access-Control-Max-Age"] = "3600"
-        return response
 
-    response = await call_next(request)
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, Origin"
-    return response */
 
 # Keep CORSMiddleware as a fallback layer
 app.add_middleware(
