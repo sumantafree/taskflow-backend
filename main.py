@@ -146,6 +146,18 @@ async def lifespan(app: FastAPI):
 # ---------------------------------------------------------------------------
 
 app = FastAPI(
+    from fastapi.responses import Response
+
+@app.options("/{rest_of_path:path}")
+async def options_handler(rest_of_path: str):
+    return Response(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "https://taskflow.digitalsumanta.com",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+        },
+    )
     title="AI Task Manager API",
     description=(
         "Production-ready backend for the AI Task Manager app. "
