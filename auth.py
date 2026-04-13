@@ -27,13 +27,23 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 # Password helpers
 # ---------------------------------------------------------------------------
 
+import hashlib
+
 def hash_password(plain_password: str) -> str:
-    """Hash a plain-text password using bcrypt."""
+    """Hash password with SHA256 + bcrypt (no length limit)."""
+    
+    if not plain_password:
+        raise ValueError("Password is required")
+
+    # 🔥 Remove bcrypt 72-char limit
+    plain_password = hashlib.sha256(plain_password.encode()).hexdigest()
+
     return pwd_context.hash(plain_password)
 
-
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Verify a plain-text password against its bcrypt hash."""
+    import hashlib
+
+    plain_password = hashlib.sha256(plain_password.encode()).hexdigest()
     return pwd_context.verify(plain_password, hashed_password)
 
 
