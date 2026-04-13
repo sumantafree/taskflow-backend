@@ -34,11 +34,11 @@ def register(user_in: schemas.UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="full_name is required")
 
     user = models.User(
-        name=resolved_name,
-        email=user_in.email,
-        hashed_password=hash_password(user_in.password),
-        role=user_in.role,
-    )
+    name=resolved_name,
+    email=user_in.email,
+    hashed_password=hash_password(user_in.password),
+    role=user_in.role or "user",   # 🔥 FIX
+)
     db.add(user)
     db.commit()
     db.refresh(user)
