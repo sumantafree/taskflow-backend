@@ -6,6 +6,7 @@ from datetime import datetime, timezone, timedelta
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
+from fastapi.responses import Response
 
 load_dotenv()
 
@@ -146,7 +147,7 @@ async def lifespan(app: FastAPI):
 # ---------------------------------------------------------------------------
 
 app = FastAPI(
-    from fastapi.responses import Response
+    
 
 @app.options("/{rest_of_path:path}")
 async def options_handler(rest_of_path: str):
