@@ -1,28 +1,29 @@
-# Build tools — must be first
+# Build tools
 setuptools>=69.0.0
 wheel>=0.43.0
 
-# Core framework
+# Core
 fastapi==0.115.0
 uvicorn[standard]==0.30.0
 
-# Database
+# DB
 sqlalchemy==2.0.35
 alembic==1.13.3
 
-# Validation — 2.10.x has wheels for Python 3.11 through 3.14
+# Validation
 pydantic[email]==2.10.4
 email-validator==2.2.0
 
 # Auth
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
+bcrypt==4.0.1
 python-multipart==0.0.12
 
 # Scheduler
 apscheduler==3.10.4
 
-# Utilities
+# Utils
 python-dotenv==1.0.1
 httpx==0.27.0
 python-dateutil==2.9.0
