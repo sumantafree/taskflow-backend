@@ -146,27 +146,8 @@ async def lifespan(app: FastAPI):
 # FastAPI app
 # ---------------------------------------------------------------------------
 
+# ✅ Create app FIRST
 app = FastAPI(
- app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["https://taskflow.digitalsumanta.com"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-@app.options("/{rest_of_path:path}")
-async def options_handler(rest_of_path: str):
-    return Response(
-        status_code=200,
-        headers={
-            "Access-Control-Allow-Origin": "https://taskflow.digitalsumanta.com",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-            "Access-Control-Allow-Headers": "*",
-        },
-    )
-
     title="AI Task Manager API",
     description=(
         "Production-ready backend for the AI Task Manager app. "
@@ -178,6 +159,26 @@ async def options_handler(rest_of_path: str):
     docs_url="/docs",
     redoc_url="/redoc",
 )
+
+# ✅ THEN add middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://taskflow.digitalsumanta.com"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.options("/{rest_of_path:path}")
+async def options_handler(rest_of_path: str):
+    return Response(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "https://taskflow.digitalsumanta.com",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+        },
+    )
 
 # ---------------------------------------------------------------------------
 # CORS — raw middleware that injects headers on EVERY response
